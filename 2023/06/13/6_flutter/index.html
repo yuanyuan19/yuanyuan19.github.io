@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuanyuan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Flutter 是 Google 开源的应用开发框架，仅通过一套代码库，就能构建精美的、原生平台编译的多平台应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutter">
+<meta property="og:url" content="http://8.130.116.50/2023/06/13/6_flutter/index.html">
+<meta property="og:site_name" content="yuanyuan的个人博客">
+<meta property="og:description" content="Flutter 是 Google 开源的应用开发框架，仅通过一套代码库，就能构建精美的、原生平台编译的多平台应用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://8.130.116.50/img/index_img/1.jpg">
+<meta property="article:published_time" content="2023-06-13T07:32:27.000Z">
+<meta property="article:modified_time" content="2023-06-13T07:57:09.032Z">
+<meta property="article:author" content="yuanyuan">
+<meta property="article:tag" content="flutter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://8.130.116.50/img/index_img/1.jpg">
+  
+  
+  
+  <title>flutter - yuanyuan的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"8.130.116.50","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>yuanyuanのblog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/theme/blog.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="flutter"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-13 15:32" pubdate>
+          2023年6月13日下午3点32分
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          66 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">flutter</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="package中的lib文件"><a href="#package中的lib文件" class="headerlink" title="package中的lib文件"></a>package中的lib文件</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7051398049583038501">https://juejin.cn/post/7051398049583038501</a></p>
+<p>对于package来说，lib中的文件是可以被导出的文件，但是我们在引入package的时候最好不要使用绝对路径或者相对路径直接导入lib中的文件。</p>
+<p>而是需要使用<code>import &#39;package:&#39;</code></p>
+<p>举个例子，假如我们有下面结构的library文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">my_package<br>└─ lib<br>   └─ api.dart<br>   <span class="hljs-built_in">test</span><br>   └─ api_test.dart<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>api.dart就是我们要导出的文件。如果我们在api_test.dart中需要引用api.dart，则可以有下面两种方式：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:my_package/api.dart&#x27;</span>;<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>和：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;../lib/api.dart&#x27;</span>;<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>其中上面一种方式是官方推荐的方式，为什么不使用下面一种方式呢？这是因为相对路径的方式只能在包内部使用。并且dart官方不建议将lib放在引用路径中，如果要引用lib内部的文件， 一定要使用package:。</p>
+<p>当然，如果是package内部的引用，则优先使用相对路径，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">my_package<br>└─ lib<br>   ├─ src<br>   │  └─ stuff.dart<br>   │  └─ utils.dart<br>   └─ api.dart<br>   <span class="hljs-built_in">test</span><br>   │─ api_test.dart<br>   └─ test_utils.dart<br><br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>那么对应lib&#x2F;api.dart来说，可以这样引用：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;src/stuff.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;src/utils.dart&#x27;</span>;<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>对于utils.dart来说，可以这样引用：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;../api.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;stuff.dart&#x27;</span>;<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>对于test&#x2F;api_test.dart来说，可以这样引用：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:my_package/api.dart&#x27;</span>; <br><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;test_utils.dart&#x27;</span>;<br>复制代码<br></code></pre></td></tr></table></figure>
+
+<p>总之，不要在import的路径中出现lib。</p>
+<h3 id="dio库"><a href="#dio库" class="headerlink" title="dio库"></a>dio库</h3><p>dio库是一个为Flutter&#x2F;dart量身定制的的http客户端，<code>pubspec.yaml</code>用于管理第三方库及资源的配置文件，在里面添加dio依赖保存后会自动执行<code>flutter packages get</code>。</p>
+<p><img src="/assets/6_flutter/image-20230426003400298.png" srcset="/img/loading.gif" lazyload alt="image-20230426003400298"></p>
+<p>HTTP的请求报文和相应报文都含有报文主体和报文首部。报文首部提供在客户端和服务器处理时需要的一些重要信息，比如content-type用于说明报文主体的媒体类型。报文主体包含用户的资源和信息。</p>
+<p><img src="/assets/6_flutter/image-20230427160856979.png" srcset="/img/loading.gif" lazyload alt="image-20230427160856979"></p>
+<p>url参数是在请求行里，它属于报文首部。url参数使用GET获取，而表单数据使用POST获取。案例如下，queryParameters会被自动整合到url后面，而data后是表单数据。分别使用GET和POST接收。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dart">Response response;<br>Dio dio =<span class="hljs-keyword">new</span> Dio();<br>FormData formData = FormData.fromMap(&#123;<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;joe&quot;</span>,<br>    <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">25</span>,<br>&#125;);<br>response=<span class="hljs-keyword">await</span> dio.post(servicePath[<span class="hljs-string">&#x27;HomePageContent&#x27;</span>]!,queryParameters:&#123;<span class="hljs-string">&quot;test&quot;</span>:<span class="hljs-string">&quot;我是url参数&quot;</span>&#125;,data:formData); <br></code></pre></td></tr></table></figure>
+
+<p><img src="/assets/6_flutter/image-20230427162936448.png" srcset="/img/loading.gif" lazyload alt="image-20230427162936448"></p>
+<h3 id="应用案例"><a href="#应用案例" class="headerlink" title="应用案例"></a>应用案例</h3><h4 id="移动电商"><a href="#移动电商" class="headerlink" title="移动电商"></a>移动电商</h4><h5 id="先把项目跑起来"><a href="#先把项目跑起来" class="headerlink" title="先把项目跑起来"></a>先把项目跑起来</h5><p>示例代码，就在lib下面写。两个无状态组件，用snippets去自动生成就行：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//main.dart</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flapp/pages/index.dart&#x27;</span>;<br><span class="hljs-keyword">void</span> main()=&gt;runApp(MyApp());<br><br><span class="hljs-keyword">void</span> main()=&gt;runApp(MyApp());<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> MyApp(&#123;<span class="hljs-keyword">super</span>.key&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Container(<br>      child:MaterialApp(<br>        title:<span class="hljs-string">&#x27;百姓生活+&#x27;</span>,<br>        debugShowCheckedModeBanner: <span class="hljs-keyword">false</span>,<br>        theme:ThemeData(<br>          primaryColor: Colors.pink<br>        ),<br>        home:IndexPage()<br>      ),<br>    );<br>  &#125;<br>&#125;<br><span class="hljs-comment">//pages\index.dart</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IndexPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> IndexPage(&#123;<span class="hljs-keyword">super</span>.key&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      appBar: AppBar(title:Text(<span class="hljs-string">&#x27;百姓生活+&#x27;</span>)),<br>      body:Center(<br>        child:Text(<span class="hljs-string">&#x27;百姓生活+&#x27;</span>),<br>        )<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="编写导航栏"><a href="#编写导航栏" class="headerlink" title="编写导航栏"></a>编写导航栏</h5><p>material和cupertino是两种风格，material是很有质感的，cupertino是适合ios的。flutter可以多选风格。有变化的用有状态的组件。所以把index.dart下的内容删除，用代码片段生成有状态的组件，然后添加<code>&lt;BottomNavigationBar&gt;list</code>存几个选项，在home下写几个简单的测试页面。</p>
+<p><img src="/assets/6_flutter/image-20230425215536191.png" srcset="/img/loading.gif" lazyload alt="image-20230425215536191"></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//index.dart</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IndexPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> IndexPage(&#123;<span class="hljs-keyword">super</span>.key&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  State&lt;IndexPage&gt; createState() =&gt; _IndexPageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_IndexPageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">IndexPage</span>&gt; </span>&#123;<br>  <span class="hljs-keyword">final</span> <span class="hljs-built_in">List</span>&lt;BottomNavigationBarItem&gt; bottomTabs=[<br>    <span class="hljs-keyword">const</span> BottomNavigationBarItem(<br>      icon: Icon(CupertinoIcons.home),<br>      label:<span class="hljs-string">&#x27;首页&#x27;</span><br>      ),<br>      <span class="hljs-keyword">const</span> BottomNavigationBarItem(<br>      icon: Icon(CupertinoIcons.search),<br>      label:<span class="hljs-string">&#x27;分类&#x27;</span><br>      ),<br>      <span class="hljs-keyword">const</span> BottomNavigationBarItem(<br>      icon: Icon(CupertinoIcons.shopping_cart),<br>      label:<span class="hljs-string">&#x27;购物车&#x27;</span><br>      ),<br>      <span class="hljs-keyword">const</span> BottomNavigationBarItem(<br>      icon: Icon(CupertinoIcons.profile_circled),<br>      label:<span class="hljs-string">&#x27;会员中心&#x27;</span><br>      )<br>  ];<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Container();<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">//pages\home_page.dart</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomePage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> HomePage(&#123;<span class="hljs-keyword">super</span>.key&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      body:Scaffold(<br>        body:Center(child: Text(<span class="hljs-string">&#x27;商城首页&#x27;</span>),)<br>      )<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后import引入页面，再用List存下每个页面。用<code>inits</code>生成初始化的代码片段。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">final</span> <span class="hljs-built_in">List</span> tabBodies=[<br>   HomePage(),<br>   CategoryPage(),<br>   CartPage(),<br>   MemberPage(),<br> ];<br> <br> <span class="hljs-built_in">int</span> currentIndex =<span class="hljs-number">0</span>;<br> <span class="hljs-keyword">var</span> currentPage;<br><br> <span class="hljs-meta">@override</span><br> <span class="hljs-keyword">void</span> initState() &#123;<br>   currentPage=tabBodies[currentIndex];<br>   <span class="hljs-keyword">super</span>.initState();<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后返回一个<code>Scaffold</code>组件，用<code>onTap</code>传入回调函数修改<code>currentIndex</code>和<code>currentPage</code>的值。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">return</span> Scaffold(<br>      backgroundColor: <span class="hljs-keyword">const</span> Color.fromRGBO(<span class="hljs-number">244</span>,<span class="hljs-number">245</span>,<span class="hljs-number">245</span>,<span class="hljs-number">1.0</span>),<br>      bottomNavigationBar: BottomNavigationBar(<br>        type:BottomNavigationBarType.fixed,<br>        currentIndex: currentIndex,<br>        items:bottomTabs,<br>        onTap: (index)&#123;   <br>          setState(() &#123;<br>            currentIndex=index;<br>            currentPage=tabBodies[index];<br>          &#125;);<br>        &#125;,<br>        ),<br>        body:currentPage,<br>      );<br></code></pre></td></tr></table></figure>
+
+<p>最终完整的代码</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//pages\index.dart</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/cupertino.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;home_page.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;cart_page.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;category_page.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;member_page.dart&#x27;</span>;<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IndexPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> IndexPage(&#123;<span class="hljs-keyword">super</span>.key&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  State&lt;IndexPage&gt; createState() =&gt; _IndexPageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_IndexPageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">IndexPage</span>&gt; </span>&#123;<br>  <span class="hljs-keyword">final</span> <span class="hljs-built_in">List</span>&lt;BottomNavigationBarItem&gt; bottomTabs=[<br>    <span class="hljs-keyword">const</span> BottomNavigationBarItem(<br>      icon: Icon(CupertinoIcons.home),<br>      label:<span class="hljs-string">&#x27;首页&#x27;</span><br>      ),<br>      <span class="hljs-keyword">const</span> BottomNavigationBarItem(<br>      icon: Icon(CupertinoIcons.search),<br>      label:<span class="hljs-string">&#x27;分类&#x27;</span><br>      ),<br>      <span class="hljs-keyword">const</span> BottomNavigationBarItem(<br>      icon: Icon(CupertinoIcons.shopping_cart),<br>      label:<span class="hljs-string">&#x27;购物车&#x27;</span><br>      ),<br>      <span class="hljs-keyword">const</span> BottomNavigationBarItem(<br>      icon: Icon(CupertinoIcons.profile_circled),<br>      label:<span class="hljs-string">&#x27;会员中心&#x27;</span><br>      )<br>  ];<br><br>  <span class="hljs-keyword">final</span> <span class="hljs-built_in">List</span> tabBodies=[<br>    <span class="hljs-keyword">const</span> HomePage(),<br>    <span class="hljs-keyword">const</span> CategoryPage(),<br>    <span class="hljs-keyword">const</span> CartPage(),<br>    <span class="hljs-keyword">const</span> MemberPage(),<br>  ];<br>  <br>  <span class="hljs-built_in">int</span> currentIndex =<span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">var</span> currentPage;<br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> initState() &#123;<br>    currentPage=tabBodies[currentIndex];<br>    <span class="hljs-keyword">super</span>.initState();<br>    <br>  &#125;<br>    <br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      backgroundColor: <span class="hljs-keyword">const</span> Color.fromRGBO(<span class="hljs-number">244</span>,<span class="hljs-number">245</span>,<span class="hljs-number">245</span>,<span class="hljs-number">1.0</span>),<br>      bottomNavigationBar: BottomNavigationBar(<br>        type:BottomNavigationBarType.fixed,<br>        currentIndex: currentIndex,<br>        items:bottomTabs,<br>        onTap: (index)&#123;   <br>          setState(() &#123;<br>            currentIndex=index;<br>            currentPage=tabBodies[index];<br>          &#125;);<br>        &#125;,<br>        ),<br>        body:currentPage,<br>      );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/assets/6_flutter/image-20230425234744414.png" srcset="/img/loading.gif" lazyload alt="image-20230425234744414"></p>
+<h5 id="增加config和service文件夹"><a href="#增加config和service文件夹" class="headerlink" title="增加config和service文件夹"></a>增加<code>config</code>和<code>service</code>文件夹</h5><p><img src="/assets/6_flutter/image-20230427135028463.png" srcset="/img/loading.gif" lazyload alt="image-20230427135028463"></p>
+<p>在<code>service_url.dart</code>文件内是url的配置，在<code>service_method.dart</code>文件内是一些请求方法。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs dart">----lib\config\service_url.dart----<br><span class="hljs-keyword">const</span> serviceUrl=<span class="hljs-string">&#x27;http://127.0.0.1:8000&#x27;</span>;<br><span class="hljs-keyword">const</span> servicePath=&#123;<br>  <span class="hljs-string">&#x27;HomePageContent&#x27;</span>:serviceUrl+<span class="hljs-string">&#x27;/blog/test/&#x27;</span>,<br>  <br>&#125;;<br>----lib\service\service_method.dart----<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:dio/dio.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;dart:async&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;dart:io&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;../config/service_url.dart&#x27;</span>;<br><br><span class="hljs-comment">//获取首页主题内容</span><br>Future getHomePageContent() <span class="hljs-keyword">async</span>&#123;<br>  <span class="hljs-keyword">try</span>&#123;<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;开始获得首页数据......&#x27;</span>);<br>    Response response;<br>    Dio dio =<span class="hljs-keyword">new</span> Dio();<br>    FormData formData = FormData.fromMap(&#123;<br>   <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;joe&quot;</span><br>    &#125;);<br>    response=<span class="hljs-keyword">await</span> dio.post(servicePath[<span class="hljs-string">&#x27;HomePageContent&#x27;</span>]!,data:formData);  <span class="hljs-comment">//断言不为空，为空会抛出NoSuchMethodError异常</span><br>    <span class="hljs-keyword">if</span>(response.statusCode==<span class="hljs-number">200</span>)&#123;<br>      <span class="hljs-keyword">return</span> response;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>      <span class="hljs-keyword">throw</span> Exception(<span class="hljs-string">&#x27;后端接口出错&#x27;</span>);<br>    &#125;<br>  &#125;<span class="hljs-keyword">catch</span>(e)&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;ERROR:<span class="hljs-subst">$&#123;e&#125;</span>&quot;</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="编写HomePage界面"><a href="#编写HomePage界面" class="headerlink" title="编写HomePage界面"></a>编写<code>HomePage</code>界面</h5><p>编写一下<code>HomePage</code>组件，在初始化的时候去执行获取首页主题内容的页面的函数，初始化可以用inits生成代码片段。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;package:flutter/material.dart&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;../service/service_method.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomePage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> HomePage(&#123;<span class="hljs-keyword">super</span>.key&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  State&lt;HomePage&gt; createState() =&gt; _HomePageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_HomePageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">HomePage</span>&gt; </span>&#123;<br>  <span class="hljs-built_in">String</span> HomePageContent=<span class="hljs-string">&#x27;正在获取数据&#x27;</span>;<br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> initState() &#123;<br>    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> implement initState</span><br>    <span class="hljs-keyword">super</span>.initState();<br>    getHomePageContent().then((val)&#123;<br>      setState(() &#123;<br>        HomePageContent=val.toString();<br>      &#125;);<br>    &#125; ,);<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      appBar:AppBar(title:Text(<span class="hljs-string">&#x27;百姓生活+&#x27;</span>)),<br>      body:SingleChildScrollView(<br>        child: Text(HomePageContent),<br>        <br>        )<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="配置和插件"><a href="#配置和插件" class="headerlink" title="配置和插件"></a>配置和插件</h3><p>保存时自动补全const：</p>
+<p><img src="/assets/6_flutter/image-20230425230155801.png" srcset="/img/loading.gif" lazyload alt="image-20230425230155801"></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json">----settings.json----<br><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;editor.codeActionsOnSave&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;source.fixAll&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span> <span class="hljs-comment">// 自动修复 all</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>一些好用的插件 支持代码片段：</p>
+<p><img src="/assets/6_flutter/image-20230425230414016.png" srcset="/img/loading.gif" lazyload alt="image-20230425230414016"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AE%9E%E7%94%A8%E6%8A%80%E6%9C%AF/" class="category-chain-item">实用技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/flutter/">#flutter</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>flutter</div>
+      <div>http://8.130.116.50/2023/06/13/6_flutter/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuanyuan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://8.130.116.50/2023/06/13/6_flutter/';
+          this.page.identifier = '/2023/06/13/6_flutter/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

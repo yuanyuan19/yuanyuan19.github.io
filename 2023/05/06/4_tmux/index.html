@@ -1,0 +1,984 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuanyuan">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="假设我们用SSH登录到一个远程计算机写代码，如果此时断开，会话就会终止，运行在会话里的服务器会立即中断，之前的命令会因此丢失。有些时候我们希望能在关闭终端后会话继续在后台运行，tmux就能做到这一点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tmux笔记整理">
+<meta property="og:url" content="http://8.130.116.50/2023/05/06/4_tmux/index.html">
+<meta property="og:site_name" content="yuanyuan的个人博客">
+<meta property="og:description" content="假设我们用SSH登录到一个远程计算机写代码，如果此时断开，会话就会终止，运行在会话里的服务器会立即中断，之前的命令会因此丢失。有些时候我们希望能在关闭终端后会话继续在后台运行，tmux就能做到这一点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://8.130.116.50/assets/4_tmux/index_img.jpg">
+<meta property="article:published_time" content="2023-05-05T19:32:27.000Z">
+<meta property="article:modified_time" content="2023-06-13T07:52:37.054Z">
+<meta property="article:author" content="yuanyuan">
+<meta property="article:tag" content="tmux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://8.130.116.50/assets/4_tmux/index_img.jpg">
+  
+  
+  
+  <title>tmux笔记整理 - yuanyuan的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"8.130.116.50","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>yuanyuanのblog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/theme/blog.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="tmux笔记整理"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-06 03:32" pubdate>
+          2023年5月6日凌晨3点32分
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          969 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="实用技术"
+        id="heading-f68e01ed564e781ff91c93607f54cefc" role="tab" data-toggle="collapse" href="#collapse-f68e01ed564e781ff91c93607f54cefc"
+        aria-expanded="true"
+      >
+        实用技术
+        <span class="list-group-count">(6)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-f68e01ed564e781ff91c93607f54cefc"
+           role="tabpanel" aria-labelledby="heading-f68e01ed564e781ff91c93607f54cefc">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Linux"
+        id="heading-edc9f0a5a5d57797bf68e37364743831" role="tab" data-toggle="collapse" href="#collapse-edc9f0a5a5d57797bf68e37364743831"
+        aria-expanded="false"
+      >
+        Linux
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-edc9f0a5a5d57797bf68e37364743831"
+           role="tabpanel" aria-labelledby="heading-edc9f0a5a5d57797bf68e37364743831">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/05/06/1_linux%E6%95%B4%E7%90%86/" title="Linux学习笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Linux学习笔记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="docker"
+        id="heading-05b6053c41a2130afd6fc3b158bda4e6" role="tab" data-toggle="collapse" href="#collapse-05b6053c41a2130afd6fc3b158bda4e6"
+        aria-expanded="false"
+      >
+        docker
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-05b6053c41a2130afd6fc3b158bda4e6"
+           role="tabpanel" aria-labelledby="heading-05b6053c41a2130afd6fc3b158bda4e6">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/05/06/3_docker/" title="docker学习笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">docker学习笔记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="git"
+        id="heading-ba9f11ecc3497d9993b933fdc2bd61e5" role="tab" data-toggle="collapse" href="#collapse-ba9f11ecc3497d9993b933fdc2bd61e5"
+        aria-expanded="false"
+      >
+        git
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-ba9f11ecc3497d9993b933fdc2bd61e5"
+           role="tabpanel" aria-labelledby="heading-ba9f11ecc3497d9993b933fdc2bd61e5">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/05/06/2_git/" title="git学习笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">git学习笔记</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="nginx"
+        id="heading-ee434023cf89d7dfb21f63d64f0f9d74" role="tab" data-toggle="collapse" href="#collapse-ee434023cf89d7dfb21f63d64f0f9d74"
+        aria-expanded="false"
+      >
+        nginx
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-ee434023cf89d7dfb21f63d64f0f9d74"
+           role="tabpanel" aria-labelledby="heading-ee434023cf89d7dfb21f63d64f0f9d74">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/06/13/nginx/" title="nginx整理"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">nginx整理</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="tmux"
+        id="heading-96714c9d36de9b638d9efd4e60f38bfe" role="tab" data-toggle="collapse" href="#collapse-96714c9d36de9b638d9efd4e60f38bfe"
+        aria-expanded="true"
+      >
+        tmux
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-96714c9d36de9b638d9efd4e60f38bfe"
+           role="tabpanel" aria-labelledby="heading-96714c9d36de9b638d9efd4e60f38bfe">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/05/06/4_tmux/" title="tmux笔记整理"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">tmux笔记整理</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="web开发"
+        id="heading-eaea725035e6c98f58d2feafe49d2f80" role="tab" data-toggle="collapse" href="#collapse-eaea725035e6c98f58d2feafe49d2f80"
+        aria-expanded="false"
+      >
+        web开发
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse " id="collapse-eaea725035e6c98f58d2feafe49d2f80"
+           role="tabpanel" aria-labelledby="heading-eaea725035e6c98f58d2feafe49d2f80">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/06/13/5_%E5%89%8D%E7%AB%AF%E4%B8%89%E4%BB%B6%E5%A5%97/" title="前端三件套"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">前端三件套</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">tmux笔记整理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p>如何在 Linux 上使用 tmux <a target="_blank" rel="noopener" href="https://www.howtogeek.com/671422/how-to-use-tmux-on-linux-and-why-its-better-than-screen/">https://www.howtogeek.com/671422/how-to-use-tmux-on-linux-and-why-its-better-than-screen/</a></p>
+<h3 id="安装tmux"><a href="#安装tmux" class="headerlink" title="安装tmux"></a>安装tmux</h3><p>在ubuntu上安装tmux</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install tmux<br></code></pre></td></tr></table></figure>
+
+<h3 id="常用命令速查"><a href="#常用命令速查" class="headerlink" title="常用命令速查"></a>常用命令速查</h3><ul>
+<li><strong>Ctrl+B D</strong> — 从当前会话中分离。</li>
+<li><strong>Ctrl+B X</strong> — 关闭窗格&#x2F;窗口&#x2F;会话。</li>
+<li><strong>Ctrl+B %</strong> — 将窗口水平拆分为两个窗格。</li>
+<li><strong>Ctrl+B “</strong> — 将窗口垂直拆分为两个窗格。</li>
+<li><strong>Ctrl+B 箭头键</strong>（左、右、上、下）— 在窗格之间移动。</li>
+<li><strong>Ctrl+B C</strong> — 创建一个新窗口。</li>
+</ul>
+<h3 id="启动tmux会话"><a href="#启动tmux会话" class="headerlink" title="启动tmux会话"></a>启动tmux会话</h3><p>输入<code>tmux</code>启动一个 tmux 会话，底部状态栏信息参考后面会细说。</p>
+<p><img src="/assets/4_tmux/image-20230613145652694.png" srcset="/img/loading.gif" lazyload alt="image-20230613145652694"></p>
+<p>启动一个命名的<code>tmux</code>会话：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ tmux new -s &lt;name&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="挂起-x2F-进入tmux会话"><a href="#挂起-x2F-进入tmux会话" class="headerlink" title="挂起&#x2F;进入tmux会话"></a>挂起&#x2F;进入tmux会话</h3><p>按下<code>Ctrl+B</code>来告诉<code>tmux</code>你要使用快捷键了。会话有两种状态：<code>attached</code>和<code>detached</code>，可以通过按<code>Ctrl+B</code>然后按<code>D</code>来进入<code>detached</code>状态，它将在后台继续运行。</p>
+<p>列出活动的<code> tmux</code> 会话。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ tmux <span class="hljs-built_in">ls</span><br>0: 1 windows (created Sat Aug 27 20:54:58 2022)<br></code></pre></td></tr></table></figure>
+
+<p>进入名称为0的<code>tmux</code>会话</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ tmux attach -t 0<br></code></pre></td></tr></table></figure>
+
+<p>所有<code> tmux</code> 命令也可以缩写，例如，您可以输入 <code>tmux a</code> ，它的作用与 <code>tmux attach</code>相同。</p>
+<h3 id="使用窗口"><a href="#使用窗口" class="headerlink" title="使用窗口"></a>使用窗口</h3><p>按<code> Ctrl+B</code>，然后按 <code>C</code>来创建窗口</p>
+<p>按<code>ctrl+B</code>，再按<code>N</code>显示下一个窗口</p>
+<p>按<code>ctrl+B</code>，再按<code>P</code>显示上一个窗口</p>
+<h4 id="状态栏信息"><a href="#状态栏信息" class="headerlink" title="状态栏信息"></a>状态栏信息</h4><p>状态栏右侧显示主机名、时间和日期。左侧显示会话相关信息：</p>
+<p><code>[0]</code>：这是会话名称。默认情况下，它们从零开始编号。</p>
+<p><code>0:bash*</code>：0 表示这是本次会话中的第一个窗口。在此会话中运行的唯一进程是<code>bash</code>。<code>*</code>表示正在查看的窗口。</p>
+<p><img src="/assets/4_tmux/image-20230613145703229.png" srcset="/img/loading.gif" lazyload alt="image-20230613145703229"></p>
+<h3 id="使用窗格"><a href="#使用窗格" class="headerlink" title="使用窗格"></a>使用窗格</h3><p><code>Ctrl+B %</code>： 将窗口水平拆分为两个窗格。</p>
+<p><code>Ctrl+B &quot; </code> ：将窗口垂直拆分为两个窗格。</p>
+<p>窗格只会影响当前窗口</p>
+<h3 id="关闭会话-x2F-窗口-x2F-窗格"><a href="#关闭会话-x2F-窗口-x2F-窗格" class="headerlink" title="关闭会话&#x2F;窗口&#x2F;窗格"></a>关闭会话&#x2F;窗口&#x2F;窗格</h3><p>如果想关闭当前的窗口，可以按<code>Ctrl+B</code>再按<code>X</code>。当关闭的窗口是此会话的最后一个窗口时，将终止当前的会话。如果有窗格，会先关闭当前的窗格。</p>
+<h3 id="开启鼠标模式"><a href="#开启鼠标模式" class="headerlink" title="开启鼠标模式"></a>开启鼠标模式</h3><p>开启鼠标模式的方法为：先按<code>Ctrl+B</code>再按<code>:</code>，输入<code>set -g mouse on</code> 回车。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AE%9E%E7%94%A8%E6%8A%80%E6%9C%AF/" class="category-chain-item">实用技术</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AE%9E%E7%94%A8%E6%8A%80%E6%9C%AF/tmux/" class="category-chain-item">tmux</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/tmux/">#tmux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>tmux笔记整理</div>
+      <div>http://8.130.116.50/2023/05/06/4_tmux/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuanyuan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/13/nginx/" title="nginx整理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">nginx整理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/06/3_docker/" title="docker学习笔记">
+                        <span class="hidden-mobile">docker学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://8.130.116.50/2023/05/06/4_tmux/';
+          this.page.identifier = '/2023/05/06/4_tmux/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
