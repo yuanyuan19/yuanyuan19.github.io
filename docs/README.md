@@ -12,10 +12,11 @@
   <source src="./风吹麦浪.mp3" type="audio/mp3">
   Your browser does not support the audio element.
 </audio>
-
 <br>
+
 <p>好吧，你说你不想听。那就悄悄告诉你一个秘密，这整个网页都是用markdown渲染的，包括侧边栏和上面的播放器。有没有觉得吃惊。</p>
-<p>好吧，你觉得这一点也不好玩。那再悄悄告诉你一个我刚发现的秘密，markdown它支持Html和CSS样式，虽然CSS样式只有使用预览或在网页上才能看到，在typora这样的编辑器里不会渲染。你看到的下面这个按钮，就用上了CSS样式。</p>
+<p>好吧，你觉得这一点也不好玩。那再悄悄告诉你一个我刚发现的秘密，markdown它支持Html和CSS样式，虽然CSS样式只有使用预览或在网页上渲染才能看到，在typora这样的编辑器里看不到。</p> 
+<p>你看到的下面这个按钮，就用上了CSS样式。</p>
 
 <style>
     .button {
@@ -43,4 +44,19 @@
 
 <p>不过很可惜，markdown并不支持javascript，不然当你点击这个按钮的时候，它应该会在0.3秒内变成红色。<br>
 也许你可以自己试试看用浏览器调试，实现这个功能？</p>
-
+<style>
+    .hover-effect {
+      background-color: white;
+      color: ;
+      padding: 10px;
+      transition: background-color 0.3s ease;
+      font-size:18px
+    }
+    .hover-effect:hover {
+  background-color: #42b983;
+  color:white
+}  
+</style>
+<div class="hover-effect" style="text-align: center;">
+  <p>夫人之相与，俯仰一世，或取诸怀抱，<br>晤言一室之内；或因寄所托，放浪形骸之外。</p>
+</div>
