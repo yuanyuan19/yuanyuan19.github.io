@@ -8,15 +8,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <link rel="icon" href="github-mark.svg" type="image/x-icon">
+  
+  <style>
+    /* 一级标题 */
+    .sidebar-nav > ul > li > a{
+    color: #444444;
+    font-size: 15px;
+    font-weight: 1000;
+    margin-top: 10px;
+  }
+    /* 二级标题 */
+    .sidebar-nav > ul > ul > li > a{
+    color: #666666;
+    font-weight: 700;
+  }
+  /* 三级标题 */
+  .sidebar-nav > ul > ul > ul > li > a{
+    color: #777777;
+    font-weight: 550;
+  }
+  </style>
 </head>
 <body>
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: '<b>yuanyuan</b>の笔记本',
+      // 使用反斜杠 \ 可以让字符串在编辑器中换行显示
+      name: '<b>yuanyuan</b>の笔记本  \
+              <hr style="border: none; border-bottom: 1px solid #eeeeee; margin:35px">',
       repo: 'https://github.com/yuanyuan19/',
       loadSidebar: true,
-      subMaxLevel:3
     }
   </script>
   <!-- Docsify v4 -->
