@@ -1,17 +1,3 @@
-<style>
-    .hover-effect {
-      background-color: white;
-      padding: 10px;
-      transition: background-color 0.3s ease;
-      font-size:28px;
-    }
-    .hover-effect:hover {
-  background-color: #42b983;
-  color:white
-}  
-</style>
-<div class="hover-effect" style="text-align: center;">
-  <p style="line-height:3rem;">夫人之相与，俯仰一世，或取诸怀抱，<br>晤言一室之内；或因寄所托，放浪形骸之外。</p>
-</div>
+想去苏州做嵌入式呜呜
 
-![](index.jpg)
+大三写一个os项目出来，然后暑假在苏州找找实习
