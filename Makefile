@@ -1,10 +1,13 @@
-.PHONY: all run push
+.DEFAULT_GOAL := all
+.PHONY: all
 all: 	run
+
+.PHONY: run
 run:
 	@echo "run ..."
 	@docsify serve docs
 
-
+.PHONY: push
 push:
 	@echo "push ..."
 	@git add .
