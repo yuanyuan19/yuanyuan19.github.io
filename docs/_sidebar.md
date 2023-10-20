@@ -15,5 +15,5 @@
 * <h3 style="padding-left: 3px">其他</h3>
 * 
     * [测试页面](/test/)
-    * [阿西吧](/about/)
+    * [关于](/about/)
 
