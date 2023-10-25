@@ -1,3 +1,5 @@
-<div style="position: relative; padding: 30% 45%;">
-<iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="https://chat.openai.com/" </iframe>
+### 请你敲木鱼👋，敲完快去学习：
+
+<div style="position: relative; padding: 25% 30%;">
+<iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="/木鱼.html" </iframe>
 </div>
