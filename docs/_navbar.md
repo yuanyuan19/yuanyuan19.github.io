@@ -1,7 +1,4 @@
 
-*   
-    * [首页](/)
-
 * <h3 style="padding-left: 3px">x86汇编</h3>
 
 	* [<b>8086CPU的设计</b>](/x86汇编/1_8086CPU的设计.md)
@@ -22,6 +19,7 @@
 	* [<b>没用的知识</b>](/riscv编程与实践/7_没用的知识.md)
 
 * <h3 style="padding-left: 3px">其他</h3>
-* 
-    * [测试页面](/test/)
+
+	* [测试页面](/test/)
+	* [杂项](/other/)
     * [关于](/about/)

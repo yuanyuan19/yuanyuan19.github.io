@@ -10,6 +10,7 @@
   <link rel="icon" href="github-mark.svg" type="image/x-icon">
   
   <style>
+    /* 侧边栏样式 */
     /* 一级标题 */
     .sidebar-nav > ul > li > a{
     color: #444444;
@@ -46,7 +47,12 @@
   <!-- 高亮支持 -->
   <script src="//cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-nasm.min.js"></script>
-  <script src="./prism-masm.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-c.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-makefile.min.js"></script>
+  <script src="./prismjs/prism-armasm.min.js"></script>
+  <script src="./prismjs/prism-linker-script.min.js"></script>
+  <script src="./prismjs/prism-masm.min.js"></script>
   <!-- 图片查看 -->
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
   <!-- 评论支持 -->
@@ -58,13 +64,14 @@
     const gitalk = new Gitalk({
       clientID: '6e769c346643162ce559',
       clientSecret: '07c4956dcb3d31231b12ddf0e25c361dcfefe510',
-      repo: 'yuanyuan19.github.io',
+      repo: 'gitalk-comment',
       owner: 'yuanyuan19',
       admin: ['yuanyuan19'],
       // facebook-like distraction free mode
       distractionFreeMode: false
     })
   </script>
-
+  <!-- 复制插件 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
 </body>
 </html>
