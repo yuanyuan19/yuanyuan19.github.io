@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>05-Preemptive.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="05-preemptive----risc-v-%E7%9A%84%E5%B5%8C%E5%85%A5%E5%BC%8F%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1">05-Preemptive -- RISC-V 的嵌入式作業系統</h1>
+<p>專案 -- https://github.com/ccc-c/mini-riscv-os/tree/master/05-Preemptive</p>
+<p>第三章的 <a href="03-MultiTasking.md">03-MultiTasking</a> 中我們實作了一個《協同式多工》作業系統。不過由於沒有引入時間中斷機制，無法成為一個《搶先式》(Preemptive) 多工系統。</p>
+<p>第四章的 <a href="04-TimerInterrupt.md">04-TimerInterrupt</a> 中我們示範了 RISC-V 的時間中斷機制原理。</p>
+<p>終於到了第五章，我們打算結合前兩章的技術，實作一個具有強制時間中斷的《可搶先式》(Preemptive) 作業系統。這樣的系統就可以算是一個微型的嵌入式作業系統了。</p>
+<h2 id="%E7%B3%BB%E7%B5%B1%E5%9F%B7%E8%A1%8C">系統執行</h2>
+<p>首先讓我們和看系統的執行狀況，您可以看到下列執行結果中，系統在 OS, Task0, Task1 之間輪流的切換著。</p>
+<pre class="hljs"><code><div>$ make qemu
+Press Ctrl-A and <span class="hljs-keyword">then</span> X to <span class="hljs-built_in">exit</span> QEMU
+qemu-system-riscv32 -nographic -smp 4 -machine virt -bios none -kernel os.elf
+OS start
+OS: Activate next task
+Task0: Created!
+Task0: Running...
+Task0: Running...
+Task0: Running...
+timer_handler: 1
+OS: Back to OS
+
+OS: Activate next task
+Task1: Created!
+Task1: Running...
+Task1: Running...
+Task1: Running...
+timer_handler: 2
+OS: Back to OS
+
+OS: Activate next task
+Task0: Running...
+Task0: Running...
+Task0: Running...
+timer_handler: 3
+OS: Back to OS
+
+OS: Activate next task
+Task1: Running...
+Task1: Running...
+Task1: Running...
+timer_handler: 4
+OS: Back to OS
+
+OS: Activate next task
+Task0: Running...
+Task0: Running...
+Task0: Running...
+QEMU: Terminated
+</div></code></pre>
+<p>這個狀況和第三章的 <a href="03-MultiTasking.md">03-MultiTasking</a> 非常類似，都是如下的執行順序。</p>
+<pre class="hljs"><code><div>OS=&gt;Task0=&gt;OS=&gt;Task1=&gt;OS=&gt;Task0=&gt;OS=&gt;Task1 ....
+</div></code></pre>
+<p>唯一不同的是，第三章的使用者行程必須主動透過 <code>os_kernel()</code> 歸還控制權給作業系統，</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">user_task0</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+	lib_puts(<span class="hljs-string">"Task0: Created!\n"</span>);
+	lib_puts(<span class="hljs-string">"Task0: Now, return to kernel mode\n"</span>);
+	os_kernel();
+	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+		lib_puts(<span class="hljs-string">"Task0: Running...\n"</span>);
+		lib_delay(<span class="hljs-number">1000</span>);
+		os_kernel();
+	}
+}
+</div></code></pre>
+<p>但是在本章的 <a href="05-Preemptive.md">05-Preemptive</a> 中，使用者行程不需要主動交還給 OS，而是由 OS 透過時間中斷強制進行切換動作。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">user_task0</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+	lib_puts(<span class="hljs-string">"Task0: Created!\n"</span>);
+	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+		lib_puts(<span class="hljs-string">"Task0: Running...\n"</span>);
+		lib_delay(<span class="hljs-number">1000</span>);
+	}
+}
+</div></code></pre>
+<p>其中的 <a href="https://github.com/ccc-c/mini-riscv-os/blob/master/05-Preemptive/lib.c">lib.c</a> 裏的 lib_delay 其實是個延遲迴圈，並不會交還控制權。</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lib_delay</span><span class="hljs-params">(<span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> count)</span>
+</span>{
+	count *= <span class="hljs-number">50000</span>;
+	<span class="hljs-keyword">while</span> (count--);
+}
+</div></code></pre>
+<p>相反的，作業系統會透過時間中斷，強制取回控制權。(由於 lib_delay 延遲較久，所以作業系統通常會打斷其 <code>while (count--)</code> 的迴圈取回控制權)</p>
+<h2 id="%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1-osc">作業系統 <a href="https://github.com/ccc-c/mini-riscv-os/blob/master/05-Preemptive/os.c">os.c</a></h2>
+<ul>
+<li>https://github.com/ccc-c/mini-riscv-os/blob/master/05-Preemptive/os.c</li>
+</ul>
+<p>作業系統 os.c 一開始會呼叫 <code>user_init()</code> ，讓使用者建立 task (在本範例中會在 <a href="https://github.com/ccc-c/mini-riscv-os/blob/master/05-Preemptive/user.c">user.c</a> 裏建立 user_task0 與 user_task1。</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"os.h"</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">user_task0</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+	lib_puts(<span class="hljs-string">"Task0: Created!\n"</span>);
+	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+		lib_puts(<span class="hljs-string">"Task0: Running...\n"</span>);
+		lib_delay(<span class="hljs-number">1000</span>);
+	}
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">user_task1</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+	lib_puts(<span class="hljs-string">"Task1: Created!\n"</span>);
+	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+		lib_puts(<span class="hljs-string">"Task1: Running...\n"</span>);
+		lib_delay(<span class="hljs-number">1000</span>);
+	}
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">user_init</span><span class="hljs-params">()</span> </span>{
+	task_create(&amp;user_task0);
+	task_create(&amp;user_task1);
+}
+</div></code></pre>
+<p>然後作業系統會在 <code>os_start()</code> 裏透過 <code>timer_init()</code> 函數設定時間中斷，接著就是進入 <code>os_main()</code> 的主迴圈裏，該迴圈採用 Round-Robin 的大輪迴排班方法，每次切換就選下一個 task 來執行 (若已到最後一個 task ，接下來就是第 0 個 task)。</p>
+<pre class="hljs"><code><div>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"os.h"</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">os_kernel</span><span class="hljs-params">()</span> </span>{
+	task_os();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">os_start</span><span class="hljs-params">()</span> </span>{
+	lib_puts(<span class="hljs-string">"OS start\n"</span>);
+	user_init();
+	timer_init(); <span class="hljs-comment">// start timer interrupt ...</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">os_main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+	os_start();
+
+	<span class="hljs-keyword">int</span> current_task = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) {
+		lib_puts(<span class="hljs-string">"OS: Activate next task\n"</span>);
+		task_go(current_task);
+		lib_puts(<span class="hljs-string">"OS: Back to OS\n"</span>);
+		current_task = (current_task + <span class="hljs-number">1</span>) % taskTop; <span class="hljs-comment">// Round Robin Scheduling</span>
+		lib_puts(<span class="hljs-string">"\n"</span>);
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<p>在 05-Preemptive 的中斷機制中，我們修改了中斷向量表:</p>
+<pre class="hljs"><code><div>.globl trap_vector
+<span class="hljs-meta"># the trap vector base address must always be aligned on a 4-byte boundary</span>
+.align <span class="hljs-number">4</span>
+trap_vector:
+	<span class="hljs-meta"># save context(registers).</span>
+	csrrw	t6, mscratch, t6	<span class="hljs-meta"># swap t6 and mscratch</span>
+        reg_save t6
+	csrw	mscratch, t6
+	<span class="hljs-meta"># call the C trap handler in trap.c</span>
+	csrr	a0, mepc
+	csrr	a1, mcause
+	call	trap_handler
+
+	# trap_handler will <span class="hljs-keyword">return</span> the <span class="hljs-keyword">return</span> address via a0.
+	csrw	mepc, a0
+
+	# load context(registers).
+	csrr	t6, mscratch
+	reg_load t6
+	mret
+</div></code></pre>
+<p>當中斷發生時，中斷向量表 <code>trap_vector()</code> 會呼叫 <code>trap_handler()</code> :</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">reg_t</span> <span class="hljs-title">trap_handler</span><span class="hljs-params">(<span class="hljs-keyword">reg_t</span> epc, <span class="hljs-keyword">reg_t</span> cause)</span>
+</span>{
+  <span class="hljs-keyword">reg_t</span> return_pc = epc;
+  <span class="hljs-keyword">reg_t</span> cause_code = cause &amp; <span class="hljs-number">0xfff</span>;
+
+  <span class="hljs-keyword">if</span> (cause &amp; <span class="hljs-number">0x80000000</span>)
+  {
+    <span class="hljs-comment">/* Asynchronous trap - interrupt */</span>
+    <span class="hljs-keyword">switch</span> (cause_code)
+    {
+    <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+      lib_puts(<span class="hljs-string">"software interruption!\n"</span>);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:
+      lib_puts(<span class="hljs-string">"timer interruption!\n"</span>);
+      <span class="hljs-comment">// disable machine-mode timer interrupts.</span>
+      w_mie(~((~r_mie()) | (<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">7</span>)));
+      timer_handler();
+      return_pc = (<span class="hljs-keyword">reg_t</span>)&amp;os_kernel;
+      <span class="hljs-comment">// enable machine-mode timer interrupts.</span>
+      w_mie(r_mie() | MIE_MTIE);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">11</span>:
+      lib_puts(<span class="hljs-string">"external interruption!\n"</span>);
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+      lib_puts(<span class="hljs-string">"unknown async exception!\n"</span>);
+      <span class="hljs-keyword">break</span>;
+    }
+  }
+  <span class="hljs-keyword">else</span>
+  {
+    <span class="hljs-comment">/* Synchronous trap - exception */</span>
+    lib_puts(<span class="hljs-string">"Sync exceptions!\n"</span>);
+    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)
+    {
+      <span class="hljs-comment">/* code */</span>
+    }
+  }
+  <span class="hljs-keyword">return</span> return_pc;
+}
+</div></code></pre>
+<p>跳到 <code>trap_handler()</code> 之後，它會針對不同類型的中斷呼叫不同的 handler ，所以我們可以將它視為一個中斷的派發任務中繼站:</p>
+<pre class="hljs"><code><div>                         +----------------+
+                         | soft_handler() |
+                 +-------+----------------+
+                 |
++----------------+-------+-----------------+
+| trap_handler() |       | timer_handler() |
++----------------+       +-----------------+
+                 |
+                 +-------+-----------------+
+                         | exter_handler() |
+                         +-----------------+
+</div></code></pre>
+<p><code>trap_handler</code> 可以根據不同的中斷類型，將中斷處理交給不同的 handler ，這樣子做就可以大大的提高作業系統的擴充性。</p>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"timer.h"</span></span>
+
+<span class="hljs-comment">// a scratch area per CPU for machine-mode timer interrupts.</span>
+<span class="hljs-keyword">reg_t</span> timer_scratch[NCPU][<span class="hljs-number">5</span>];
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> interval 20000000 <span class="hljs-comment">// cycles; about 2 second in qemu.</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">timer_init</span><span class="hljs-params">()</span>
+</span>{
+  <span class="hljs-comment">// each CPU has a separate source of timer interrupts.</span>
+  <span class="hljs-keyword">int</span> id = r_mhartid();
+
+  <span class="hljs-comment">// ask the CLINT for a timer interrupt.</span>
+  <span class="hljs-comment">// int interval = 1000000; // cycles; about 1/10th second in qemu.</span>
+
+  *(<span class="hljs-keyword">reg_t</span> *)CLINT_MTIMECMP(id) = *(<span class="hljs-keyword">reg_t</span> *)CLINT_MTIME + interval;
+
+  <span class="hljs-comment">// prepare information in scratch[] for timervec.</span>
+  <span class="hljs-comment">// scratch[0..2] : space for timervec to save registers.</span>
+  <span class="hljs-comment">// scratch[3] : address of CLINT MTIMECMP register.</span>
+  <span class="hljs-comment">// scratch[4] : desired interval (in cycles) between timer interrupts.</span>
+  <span class="hljs-keyword">reg_t</span> *scratch = &amp;timer_scratch[id][<span class="hljs-number">0</span>];
+  scratch[<span class="hljs-number">3</span>] = CLINT_MTIMECMP(id);
+  scratch[<span class="hljs-number">4</span>] = interval;
+  w_mscratch((<span class="hljs-keyword">reg_t</span>)scratch);
+
+  <span class="hljs-comment">// enable machine-mode timer interrupts.</span>
+  w_mie(r_mie() | MIE_MTIE);
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> timer_count = <span class="hljs-number">0</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">timer_handler</span><span class="hljs-params">()</span>
+</span>{
+  lib_printf(<span class="hljs-string">"timer_handler: %d\n"</span>, ++timer_count);
+  <span class="hljs-keyword">int</span> id = r_mhartid();
+  *(<span class="hljs-keyword">reg_t</span> *)CLINT_MTIMECMP(id) = *(<span class="hljs-keyword">reg_t</span> *)CLINT_MTIME + interval;
+}
+
+</div></code></pre>
+<p>看到 <a href="https://github.com/ccc-c/mini-riscv-os/blob/master/05-Preemptive/timer.c">timer.c</a> 裏的 <code>timer_handler()</code>，它會將 <code>MTIMECMP</code> 做 reset 的動作。</p>
+<pre class="hljs"><code><div><span class="hljs-comment">/* In trap_handler() */</span>
+<span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:
+      lib_puts(<span class="hljs-string">"timer interruption!\n"</span>);
+      <span class="hljs-comment">// disable machine-mode timer interrupts.</span>
+      w_mie(~((~r_mie()) | (<span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">7</span>)));
+      timer_handler();
+      return_pc = (<span class="hljs-keyword">reg_t</span>)&amp;os_kernel;
+      <span class="hljs-comment">// enable machine-mode timer interrupts.</span>
+      w_mie(r_mie() | MIE_MTIE);
+      <span class="hljs-keyword">break</span>;
+<span class="hljs-comment">// ...</span>
+</div></code></pre>
+<ul>
+<li>為了避免 Timer Interrupt 出現中断嵌套的情況，在處理中斷之前， <code>trap_handler()</code> 會將 timer interrupt 關閉，等到處理完成後再打開。</li>
+<li><code>timer_handler()</code> 執行完畢後， <code>trap_handler()</code> 會將 mepc 指向 <code>os_kernel()</code> ，做到任務切換的功能。
+換言之，如果中斷不屬於 Timer Interrupt ， Program counter 則會跳回進入中斷前的狀態，這個步驟定義在 <code>trap_vector()</code> 中:</li>
+</ul>
+<pre class="hljs"><code><div>csrr	a0, mepc # a0 =&gt; arg1 (return_pc) of trap_handler()
+</div></code></pre>
+<blockquote>
+<p><strong>補充</strong>
+在 RISC-V 中，函式的參數會被優先存進 a0 - a7 暫存器，如果不夠用，才會存入 Stack 。
+其中， a0 與 a1 暫存器還有作為函式返回值的作用。</p>
+</blockquote>
+<p>最後，記得在 Kernel 開機時導入 trap 以及 timer 的初始化動作:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">os_start</span><span class="hljs-params">()</span>
+</span>{
+	lib_puts(<span class="hljs-string">"OS start\n"</span>);
+	user_init();
+	trap_init();
+	timer_init(); <span class="hljs-comment">// start timer interrupt ...</span>
+}
+</div></code></pre>
+<p>透過時間中斷強制取回控制權，我們就不用擔心有惡霸行程把持 CPU 不放，系統也就不會被惡霸卡住而整個癱瘓了，這就是現代作業系統中最重要的《行程管理機制》。</p>
+<p>雖然 mini-riscv-os 只是個微型的嵌入式作業系統，但是仍然透過相對精簡的程式碼，示範了一個具體而微的《可搶先作業系統》之設計原理。</p>
+<p>當然，學習《作業系統設計》的道路還很長，mini-riscv-os 沒有《檔案系統》，而且我還沒學會 RISC-V 當中的 super mode 與 user mode 之控制與切換方式，也還沒引入 RISC-V 的虛擬記憶體機制，因此本章的程式碼仍然只有使用 machine mode，因此沒辦法提供較完整的《權限與保護機制》。</p>
+<p>還好，這些事情已經有人做好了，您可以透過學習 xv6-riscv 這個由 MIT 所設計的教學型作業系統，進一步了解這些較複雜的機制，xv6-riscv 的原始碼總共有八千多行，雖然不算太少，但是比起那些動則數百萬行到數千萬行的 Linux / Windows 而言，xv6-riscv 算是非常精簡的系統了。</p>
+<ul>
+<li>https://github.com/mit-pdos/xv6-riscv</li>
+</ul>
+<p>然而 xv6-riscv 原本只能在 linux 下編譯執行，但是我把其中的 mkfs/mkfs.c 修改了一下，就能在 windows + git bash 這樣和 mini-riscv-os 一樣的環境下編譯執行了。</p>
+<p>您可以從下列網址中取得 windows 版的 xv6-riscv 原始碼，然後編譯執行看看，應該可以站在 mini-riscv-os 的基礎上，進一步透過 xv6-riscv 學習更進階的作業系統設計原理。</p>
+<ul>
+<li>https://github.com/ccc-c/xv6-riscv-win</li>
+</ul>
+<p>以下提供更多關於 RISC-V 的學習資源，以方便大家在學習 RISC-V 作業系統設計時，不需再經過太多的摸索。</p>
+<ul>
+<li><a href="https://github.com/ianchen0119/AwesomeCS/wiki">AwesomeCS Wiki</a></li>
+<li><a href="https://github.com/plctlab/riscv-operating-system-mooc">Step by step, learn to develop an operating system on RISC-V</a></li>
+<li><a href="http://crva.ict.ac.cn/documents/RISC-V-Reader-Chinese-v2p1.pdf">RISC-V 手册 - 一本开源指令集的指南 (PDF)</a></li>
+<li><a href="https://riscv.org//wp-content/uploads/2019/12/riscv-spec-20191213.pdf">The RISC-V Instruction Set Manual Volume II: Privileged Architecture Privileged Architecture (PDF)</a></li>
+<li><a href="https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md">RISC-V Assembly Programmer's Manual</a></li>
+<li>https://github.com/riscv/riscv-opcodes
+<ul>
+<li>https://github.com/riscv/riscv-opcodes/blob/master/opcodes-rv32i</li>
+</ul>
+</li>
+<li><a href="https://gitlab.com/ccc109/sp/-/blob/master/10-riscv/mybook/riscv-interrupt/sifive-interrupt-cookbook-zh.md">SiFive Interrupt Cookbook (SiFive 的 RISC-V 中斷手冊)</a></li>
+<li><a href="https://sifive.cdn.prismic.io/sifive/0d163928-2128-42be-a75a-464df65e04e0_sifive-interrupt-cookbook.pdf">SiFive Interrupt Cookbook -- Version 1.0 (PDF)</a></li>
+<li>進階: <a href="https://github.com/riscv/riscv-fast-interrupt/blob/master/clic.adoc">proposal for a RISC-V Core-Local Interrupt Controller (CLIC)</a></li>
+</ul>
+<p>希望這份 mini-riscv-os 教材能幫助讀者在學習 RISC-V OS 設計上節省一些寶貴的時間！</p>
+<pre><code>           陳鍾誠 2020/11/15 於金門大學
+</code></pre>
+
+</body>
+</html>

@@ -4,7 +4,6 @@ all: 	run
 
 .PHONY: run
 run:
-	@echo "run ..."
 	@docsify serve docs
 
 .PHONY: push
