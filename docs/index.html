@@ -53,7 +53,27 @@
   <script src="./prismjs/prism-armasm.min.js"></script>
   <script src="./prismjs/prism-linker-script.min.js"></script>
   <script src="./prismjs/prism-masm.min.js"></script>
- 
+  <!-- 图片查看 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <!-- 复制插件 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+  <!-- 看板娘 -->
+  <script src="./live2d/autoload.js"></script>
+  <!-- 评论支持 -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.css">
+
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+  <script>
+    const gitalk = new Gitalk({
+      clientID: '6e769c346643162ce559',
+      clientSecret: '07c4956dcb3d31231b12ddf0e25c361dcfefe510',
+      repo: 'gitalk-comment',
+      owner: 'yuanyuan19',
+      admin: ['yuanyuan19'],
+      // facebook-like distraction free mode
+      distractionFreeMode: false
+    })
   </script>
 </body>
 </html>
