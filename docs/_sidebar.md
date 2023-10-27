@@ -8,6 +8,6 @@
 
 * <h3 style="padding-left: 3px">其他</h3>
 
-  *   [<b>测试页面</b>](/test/)
-  *   [<b>杂项</b>](/other/)
-  *   [<b>关于</b>](/about/)
+  *   [<b>测试页面</b>](/other/test/)
+  *   [<b>杂项</b>](/other/unclassified/)
+  *   [<b>关于</b>](/other/about/)

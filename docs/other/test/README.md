@@ -6,7 +6,7 @@
 
 # 嵌入pdf
 <div style="position: relative; padding: 30% 45%;">
-<iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="/test/1512.03385.pdf""></iframe>
+<iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="/other/test/1512.03385.pdf""></iframe>
 </div>
 <div style="margin:32px"></div>
 

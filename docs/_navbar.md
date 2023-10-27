@@ -20,6 +20,6 @@
 
 * <h3 style="padding-left: 3px">其他</h3>
 
-	* [测试页面](/test/)
-	* [杂项](/other/)
-    * [关于](/about/)
+	*   [<b>测试页面</b>](/other/test/)
+	*   [<b>杂项</b>](/other/unclassified/)
+	*   [<b>关于</b>](/other/about/)
