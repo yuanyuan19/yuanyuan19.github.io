@@ -48,26 +48,32 @@
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+
   <!-- 高亮支持 -->
   <script src="//cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-nasm.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-cpp.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-c.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-makefile.min.js"></script>
-  <script src="./prismjs/prism-armasm.min.js"></script>
-  <script src="./prismjs/prism-linker-script.min.js"></script>
-  <script src="./prismjs/prism-masm.min.js"></script>
+  <script src="./js/prismjs/prism-armasm.min.js"></script>
+  <script src="./js/prismjs/prism-linker-script.min.js"></script>
+  <script src="./js/prismjs/prism-masm.min.js"></script>
+
   <!-- 图片查看 -->
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+
   <!-- 复制插件 -->
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+
   <!-- 看板娘 -->
   <script src="./live2d/autoload.js"></script>
+
   <!-- 评论支持 -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.css">
-
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/gitalk.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+  <!-- 解决中文编码长度超过50字符的问题 -->
+  <script src="./js/md5/md5.min.js"></script>
   <script>
     const gitalk = new Gitalk({
       clientID: '6e769c346643162ce559',
@@ -76,8 +82,15 @@
       owner: 'yuanyuan19',
       admin: ['yuanyuan19'],
       // facebook-like distraction free mode
-      distractionFreeMode: false
+      distractionFreeMode: false,
+      id: md5(location.href)
     })
   </script>
+
+  <!-- Latex公式 链接：https://github.com/scruel/docsify-latex -->
+  <!-- LaTeX display engine -->
+  <script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!--  docsify-latex plugin -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-latex@0"></script>
 </body>
 </html>

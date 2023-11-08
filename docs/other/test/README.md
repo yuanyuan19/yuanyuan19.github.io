@@ -21,3 +21,8 @@
 <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="/test/README.html""></iframe>
 </div>
 <div style="margin:32px"></div>
+
+# 测试公式
+正闭包：$A^+=A^1+A^2+A^3+.....$
+
+克林闭包：$A^*=A^0+A^1+A^2+A^3+.....$
