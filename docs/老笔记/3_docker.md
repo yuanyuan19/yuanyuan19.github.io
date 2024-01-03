@@ -56,7 +56,7 @@ docker cp blog_server:/blog/ ./1        #复制blog文件夹下的内容到主�
 在 Docker 中，可以使用 `docker save` 和 `docker load` 命令来导出和导入镜像，使用 `docker export` 和 `docker import` 命令来导出和导入容器，使用`docker commit`将容器导出为镜像。
 
 ```
-# save+save模式
+# save+load模式
 docker commit <container_name> <new_image_name>：将容器导出为镜像，会保留容器的所有历史文件和元数据
 docker save -o test.tar blog_image         # 导出镜像
 docker load -i test.tar                    # 加载镜像
