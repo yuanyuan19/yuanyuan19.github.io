@@ -1,4 +1,25 @@
 对于学习，我喜欢**遵循一个固定、程序化的流程，有规律地养成习惯**，实现自我提升。
+
+## 文件说明
+
+docs:被部署的文件夹
+
+- index.html:入口文件
+- README.md:用于内容渲染
+- blog:博客模块
+  - 这里的每个博客模块都对应着一个专题，用tools的脚本可以快速生成
+- js:存放在index.html中引入的部分js文件	
+- live2d:看板娘的js和css文件
+- CNAME:Gtihub pages自动添加的域名文件
+- .nojekyll:阻止 GitHub Pages 忽略掉下划线开头的文件
+- github-mark.svg:图标
+
+tools:一些维护项目时方便的脚本工具
+
+Makefile:执行命令的脚本文件
+
+README.md:说明文件
+
 ## 日志
 
 ### 1.5
