@@ -2,23 +2,29 @@
 
 ## 文件说明
 
-docs:被部署的文件夹
+### 一级目录
 
-- index.html:入口文件
-- README.md:用于内容渲染
-- blog:博客模块
-  - 这里的每个博客模块都对应着一个专题，用tools的脚本可以快速生成
-- js:存放在index.html中引入的部分js文件	
-- live2d:看板娘的js和css文件
-- CNAME:Gtihub pages自动添加的域名文件
-- .nojekyll:阻止 GitHub Pages 忽略掉下划线开头的文件
-- github-mark.svg:图标
+| 文件夹或文件 | 说明                       |
+| ------------ | -------------------------- |
+| docs         | 被github pages部署的文件夹 |
+| tools        | 一些方便维护项目的脚本工具 |
+| Makefile     | 命令的脚本文件             |
+| README.md    | 你正在阅读的文件           |
 
-tools:一些维护项目时方便的脚本工具
+### docs目录
 
-Makefile:执行命令的脚本文件
+| 文件夹或文件    | 说明                                                         |
+| --------------- | ------------------------------------------------------------ |
+| _coverpage.md   | 封面                                                         |
+| **blog**        | 存放博客<br />这里的每个博客模块都对应着一个主题，例如study,cook.... |
+| index.html      | 入口文件                                                     |
+| js              | 存放在index.html中引入的部分js文件                           |
+| live2d          | 看板娘的js和css文件                                          |
+| CNAME           | Gtihub pages自动添加的域名文件                               |
+| .nojekyll       | 阻止 GitHub Pages 忽略掉下划线开头的文件                     |
+| github-mark.svg | 图标                                                         |
 
-README.md:说明文件
+无论是文件内嵌，还是资源下载，在写成链接的时候都要写成相对docs的路径
 
 ## 日志
 

@@ -1,0 +1,1 @@
+ * [<b>study</b>](/blog/study/)

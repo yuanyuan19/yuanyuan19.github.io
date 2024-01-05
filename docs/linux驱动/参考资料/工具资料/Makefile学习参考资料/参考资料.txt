@@ -1,1 +1,0 @@
-https://github.com/seisman/how-to-write-makefile
