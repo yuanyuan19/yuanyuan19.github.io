@@ -24,6 +24,7 @@
 
 #waifu {
 	bottom: -1000px;
+	/* 这里直接修改display:none会无法触发first-time的调用（看waifu-tips.js结尾） */
 	right: 30px;
 	line-height: 0;
 	margin-bottom: -10px;
