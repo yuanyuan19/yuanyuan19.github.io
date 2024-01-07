@@ -12,7 +12,7 @@
 
 # <b>yuanyuan<b>の笔记本
 
-那么接下来要做些什么呢
+这是我曾经来过的痕迹👋
 
 <span>
 <img class="enlarge" src="./svg/book.svg" alt="SVG Image">
