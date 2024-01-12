@@ -1,4 +1,4 @@
-* <h3 style="padding-left: 3px">目录</h3>
+* <h3 style="padding-left: 3px">x86汇编目录</h3>
 
     * [<b>8086CPU的设计</b>](/blog/study/x86汇编/1_8086CPU的设计.md)
     * [<b>x86汇编指令</b>](/blog/study/x86汇编/2_x86汇编指令.md)

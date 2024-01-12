@@ -1,4 +1,4 @@
-* <h3 style="padding-left: 3px">目录</h3>
+* <h3 style="padding-left: 3px">riscv编程与实践目录</h3>
 
     * [<b>实验环境搭建</b>](/blog/study/riscv编程与实践/1_实验环境搭建.md)
     * [<b>构建工具</b>](/blog/study/riscv编程与实践/2_构建工具.md)

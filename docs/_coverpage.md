@@ -12,7 +12,7 @@
 
 # <b>yuanyuan<b>の笔记本
 
-这是我曾经来过的痕迹👋
+通往天堂的道路 我与魔鬼同行👋
 
 <span>
 <img class="enlarge" src="./svg/book.svg" alt="SVG Image">
