@@ -10,5 +10,5 @@ run:
 push:
 	@echo "push ..."
 	@git add .
-	@git commit -m "修改"
+	@git commit -m "update"
 	@git push
