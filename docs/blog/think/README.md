@@ -1,4 +1,4 @@
 
 我会在这里写一些日记随笔，分享一些自己觉得很好的文章。
 
-[<b>yuan的日记</b>](/blog/think/日记/)
+[<b>yuan的日记</b>](/blog/think/日记/)	[<b>文章</b>](/blog/think/分享/)
